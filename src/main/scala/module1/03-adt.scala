@@ -1,7 +1,6 @@
 package module1
-package module1
 
-import module1.subtyping.adt.sealed_traits.Card.{Clubs, Diamonds, Spades}
+//import module1.subtyping.adt.sealed_traits.Card.{Clubs, Diamonds, Spades}
 
 
 object subtyping {
@@ -28,7 +27,7 @@ object subtyping {
    *
    */
 
-  val t1 : IsSubtypeOf[Vehicle, Car] = ???
+//  val t1 : IsSubtypeOf[Vehicle, Car] = ???
 
 
   /**
@@ -37,7 +36,7 @@ object subtyping {
    *
    */
 
-  val t2 : IsSubtypeOf[Mustang.type, Car] = ???
+//  val t2 : IsSubtypeOf[Mustang.type, Car] = ???
 
 
   /**
@@ -46,7 +45,7 @@ object subtyping {
    *
    */
 
-  val t3: IsSupertypeOf[Vehicle, Harley.type ] = ???
+//  val t3: IsSupertypeOf[Vehicle, Harley.type ] = ???
 
 
   /**
@@ -54,24 +53,24 @@ object subtyping {
    * чтобы среди идущих ниже выражений, те которые корректны по смыслу компилировались, а остальные нет
    */
 
-  def isInstanceOf[A, B >: A](a: A): Unit = ???
+//  def isInstanceOf[A, B >: A](a: A): Unit = ???
 
 
 
 
-  lazy val mustCompile1    = isInstanceOf[Mustang.type, Car](Mustang)
-  lazy val mustCompile2    = isInstanceOf[Harley.type, Moto](Harley)
-  lazy val mustNotCompile1 = isInstanceOf[Mustang.type, Moto](Mustang)
-  lazy val mustNotCompile2 = isInstanceOf[Harley.type, Car](Harley)
+//  lazy val mustCompile1    = isInstanceOf[Mustang.type, Car](Mustang)
+//  lazy val mustCompile2    = isInstanceOf[Harley.type, Moto](Harley)
+//  lazy val mustNotCompile1 = isInstanceOf[Mustang.type, Moto](Mustang)
+//  lazy val mustNotCompile2 = isInstanceOf[Harley.type, Car](Harley)
 
 
   // Вариантность
-  class Garage[T]
+//  class Garage[T]
 
 
   // Вариантность полей
   // val
-  class Garage2[-T](val vehicle: T)
+//  class Garage2[-T](val vehicle: T)
 
   //  val hondaShadow = new Moto {}
   //  val shadowGarage = new Garage2[Vehicle](hondaShadow)
@@ -80,18 +79,18 @@ object subtyping {
 
 
   // var
-  class Garage3[+T](var vehicle: T)
+//  class Garage3[+T](var vehicle: T)
 
-  val hondaShadow = new Moto {}
-  val shadowGarage = new Garage3[Vehicle](hondaShadow)
+//  val hondaShadow = new Moto {}
+//  val shadowGarage = new Garage3[Vehicle](hondaShadow)
 
-  val _ = shadowGarage.vehicle = new Car {}
+//  val _ = shadowGarage.vehicle = new Car {}
 
 
   // method args
-  class Garage4[+T]{
-    def put(vehicle: T): Unit = ???
-  }
+//  class Garage4[+T]{
+//    def put(vehicle: T): Unit = ???
+//  }
 
   //  val garageVehicle: Garage4[Vehicle] = new Garage4[Car]
   //  val _ = garageVehicle.put(new Moto {})
@@ -99,9 +98,9 @@ object subtyping {
 
 
   // method return value
-  abstract class Garage5[+T]{
-    def get: T
-  }
+//  abstract class Garage5[+T]{
+//    def get: T
+//  }
 
   //  val garageVehicle = new Garage5[Vehicle] {
   //    override def get: Vehicle = new Moto {}
@@ -111,35 +110,35 @@ object subtyping {
   //
   //  val _ = carGarage.get
 
-  abstract class Cleaner[-T]{
-    def clean(t: T)
-  }
+//  abstract class Cleaner[-T]{
+//    def clean(t: T)
+//  }
 
-  val cleaner: Cleaner[Vehicle] = new Cleaner[Vehicle] {
-    override def clean(t: Vehicle): Unit = println("Cleaned")
-  }
+//  val cleaner: Cleaner[Vehicle] = new Cleaner[Vehicle] {
+//    override def clean(t: Vehicle): Unit = println("Cleaned")
+//  }
 
-  def cleaner[T](t: T, cleaner: Cleaner[T]) = cleaner.clean(t)
+//  def cleaner[T](t: T, cleaner: Cleaner[T]) = cleaner.clean(t)
 
-  cleaner[Car](new Car {}, cleaner)
+//  cleaner[Car](new Car {}, cleaner)
 
-  val l: List[Vehicle] = List(new Car {}, new Moto {})
-
-
+//  val l: List[Vehicle] = List(new Car {}, new Moto {})
 
 
-  trait Box[+T] {
-    def get: T
-  }
+
+
+//  trait Box[+T] {
+//    def get: T
+//  }
 
 
   // val a : IsSubtypeOf = ???
 
 
-  trait Consumer[+T] {
-    def consume[TT >: T](v: TT): Unit
-    def produce: T
-  }
+//  trait Consumer[+T] {
+//    def consume[TT >: T](v: TT): Unit
+//    def produce: T
+//  }
 
   //  val b : IsSupertypeOf
 
@@ -148,7 +147,7 @@ object subtyping {
 
 
 
-  object adt{
+ /* object adt{
 
 
     object tuples{
@@ -303,7 +302,7 @@ object subtyping {
 
       val a: A = ???
 
-      val alex = "Alex"
+//      val alex = "Alex"
 
       val str: String = ???
 
@@ -374,7 +373,7 @@ object subtyping {
 
       lazy val card: Card = Card.Spades(10)
 
-
+*/
       /**
        * Написать паттерн матчинг на 10 пику, и на все остальное
        */
@@ -383,8 +382,8 @@ object subtyping {
       /**
        * Написать паттерн матчинг который матчит карты номиналом >= 10
        */
-
+/*
     }
 
-  }
+  }*/
 }

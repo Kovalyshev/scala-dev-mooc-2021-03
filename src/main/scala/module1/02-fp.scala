@@ -113,7 +113,7 @@ object hof{
   // Follow type implementation
   def partial[A,B,C](a: A, f: (A, B) => C): B => C = (b : B) => f(a, b) // B => C
 
-  def sum(x: Int, y: Int): Int = ???
+  def sum(x: Int, y: Int): Int = x + y
 
   val r: Int => Int = partial(1, sum)
 
@@ -165,7 +165,11 @@ object hof{
       case Option.None => Option.None
     }
 
-    def flatMap[B](f: A => Option[B]): Option[B] = ???
+    def flatMap[B](f: A => Option[B]): Option[B] = this match {
+      case Option.None => Option.None
+      case Option.Some(v) =>
+        f(v)
+    }
 
     // val i : Option[Int]  i.map(v => v + 1)
 
@@ -175,6 +179,48 @@ object hof{
       else Option.Some(x / y)
 
 
+    def printIfAny(): Unit = {
+      this match {
+        case Option.None =>
+          ()
+        case Option.Some(v) =>
+          println(v)
+      }
+    }
+
+    def orElse[B >: A](other: Option[B]): Option[B] = {
+      this match {
+        case Option.None =>
+          other
+        case Option.Some(v) =>
+          Option.Some(v)
+      }
+    }
+
+    /*def get: A = {
+      this match {
+        case Option.None =>
+          throw new Exception("Not data in")
+        case Option.Some(v) =>
+          v
+      }
+    }*/
+
+    def zip[B](other: Option[B]): Option[(A, B)] = {
+      Option.Some((this.get, other.get))
+    }
+
+    def filter(cond: A => Boolean): Option[A] = {
+      this match {
+        case Option.None =>
+          Option.None
+        case Option.Some(v) =>
+          if (cond(v))
+            Option.Some(v)
+          else
+            Option.None
+      }
+    }
   }
 
    object Option{
@@ -182,39 +228,84 @@ object hof{
      case object None extends Option[Nothing]
    }
 
+  def main(args: Array[String]): Unit = {
+
+  }
 
   /**
    *
    * Реализовать метод printIfAny, который будет печатать значение, если оно есть
    */
+  println("Тест реализации метода printIfAny")
+  val op1Has = Option.Some(5)
+  val op1None = Option.None
+  op1Has.printIfAny()
+  op1None.printIfAny()
 
   /**
    *
    * реализовать метод orElse который будет возвращать другой Option, если данный пустой
    */
-
+    println("Тест реализации метода orElse")
+  val op2Has = Option.Some("Fix")
+  val op2None = Option.None
+  val op2Def = Option.Some("Update")
+  println(op2Has.orElse(op2Def))
+  println(op2None.orElse(op2Def))
 
   /**
    *
    * Реализовать метод isEmpty, который будет возвращать true если Option не пуст и false в противном случае
    */
-
+  println("Тест реализации метода isEmpty")
+  val op3Has = Option.Some(35)
+  val op3None = Option.None
+  println(s"Not empty is ${op3Has.isEmpty}")
+  println(s"Empty is ${op3None.isEmpty}")
 
   /**
    *
    * Реализовать метод get, который будет возвращать значение
    */
+  println("Тест реализации метода get")
+  val op4Has = Option.Some(35)
+  val op4None = Option.None
+  try {
+    println(s"Not empty value is ${op4Has.get}")
+    println(s"Empty value is ${op4None.get}")
+  }
+  catch {
+    case _: Exception =>
+      println("Getting value of None with exception is normal")
+  }
 
   /**
    *
    * Реализовать метод zip, который будет создавать Option от пары значений из 2-х Option
    */
-
+  println("Тест реализации метода zip")
+  val op5Has1 = Option.Some(35)
+  val op5Has2 = Option.Some("Fix")
+  val op5None = Option.None
+  try {
+    println(s"Not empty with not empty is ${op5Has1.zip(op5Has2)}")
+    println(s"Not empty with empty is ${op5Has1.zip(op5None)}")
+  }
+  catch {
+    case _: Exception =>
+      println("Getting value of None with exception is normal")
+  }
 
   /**
    *
    * Реализовать метод filter, который будет возвращать не пустой Option
    * в случае если исходный не пуст и предикат от значения = true
    */
+  println("Тест реализации метода filter")
+  val op6Has = Option.Some(35)
+  val op6None = Option.None
+  println(s"Not empty value filter with true condition is ${op6Has.filter(_ > 0)}")
+  println(s"Not empty value filter with false condition is ${op6Has.filter(_ < 0)}")
+  println(s"Empty value filter with any condition is ${op6Has.filter(_ > 0)}")
 
- }
+}
