@@ -181,10 +181,9 @@ object hof{
 
     def printIfAny(): Unit = {
       this match {
-        case Option.None =>
-          ()
         case Option.Some(v) =>
           println(v)
+        case Option.None =>
       }
     }
 
@@ -207,18 +206,20 @@ object hof{
     }*/
 
     def zip[B](other: Option[B]): Option[(A, B)] = {
-      Option.Some((this.get, other.get))
+      (this, other) match {
+        case (Option.Some(a), Option.Some(b)) =>
+          Option.Some((a, b))
+        case (Option.None, Option.Some(_)) | (Option.Some(_), Option.None) =>
+          Option.None
+      }
     }
 
     def filter(cond: A => Boolean): Option[A] = {
       this match {
-        case Option.None =>
+        case some @ Option.Some(v) if cond(v) =>
+          some
+        case _ =>
           Option.None
-        case Option.Some(v) =>
-          if (cond(v))
-            Option.Some(v)
-          else
-            Option.None
       }
     }
   }
